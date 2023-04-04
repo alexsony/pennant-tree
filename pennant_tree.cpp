@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include "pennant_tree.hpp"
 
 PennantTree::PennantTree(int root_value) {
@@ -8,6 +7,12 @@ PennantTree::PennantTree(int root_value) {
     root->left = NULL;
     root->right = NULL;
 
+}
+
+PennantTree::PennantTree(PennantTree&& new_tree) {
+    if (root == NULL) root = std::make_shared<node>();
+    root = new_tree.get_root();
+    tree = new_tree.get_tree();
 }
 
 void PennantTree::insert(int key) {
@@ -34,7 +39,6 @@ void PennantTree::pennant_union(PennantTree &tree) {
     tree.get_root()->right = std::make_shared<node>();
     tree.get_root()->right = root->left;
     root->left = tree.get_root();
-
 }
 
 void PennantTree::pennant_split(PennantTree &tree) {
@@ -45,9 +49,20 @@ void PennantTree::pennant_split(PennantTree &tree) {
     tree.get_root() = new_node;
 }
 
-std::shared_ptr<node> PennantTree::get_root() {
+std::shared_ptr<node> & PennantTree::get_root() {
     return root;
 }
+
+std::vector<std::shared_ptr<node>> PennantTree::get_tree() {
+    return tree;
+}
+
+
+void PennantTree::operator = (PennantTree &copy_tree) {
+    root = std::move(copy_tree.get_root());
+    tree = copy_tree.get_tree();
+}
+
 
 void PennantTree::print() {
     print("",root,false);
