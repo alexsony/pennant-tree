@@ -9,6 +9,15 @@ PennantTree::PennantTree(int root_value) {
 
 }
 
+PennantTree::PennantTree() {
+    root = std::make_shared<node>();
+    root->key_value = 0;
+    root->left = NULL;
+    root->right = NULL;
+    insert(0);
+
+}
+
 PennantTree::PennantTree(PennantTree&& new_tree) {
     if (root == NULL) root = std::make_shared<node>();
     root = new_tree.get_root();
@@ -43,10 +52,13 @@ void PennantTree::pennant_union(PennantTree &tree) {
 
 void PennantTree::pennant_split(PennantTree &tree) {
     std::shared_ptr<node> new_node = std::make_shared<node>();
+
     new_node = root->left;
     root->left = new_node->right;
     new_node->right = NULL;
+
     tree.get_root() = new_node;
+
 }
 
 std::shared_ptr<node> & PennantTree::get_root() {

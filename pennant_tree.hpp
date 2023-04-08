@@ -15,6 +15,7 @@ class PennantTree {
 public:
     PennantTree(int root_value);
     PennantTree(PennantTree &&new_tree);
+    PennantTree();
 
     void insert(int key);
     void pennant_union(PennantTree &tree);

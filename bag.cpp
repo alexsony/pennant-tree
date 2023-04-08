@@ -53,18 +53,20 @@ void Bag::split(Bag &other) {
     bag[0].get_root() = NULL;
     int r = maxim_r();
 
-    for (int k = 1; k < r; k++) {
-        if (bag[k].get_root() != NULL) {
-            std::cout << "k=" << k << std::endl;
-            // other.get_bag()[k-1].pennant_split(bag[k]);
-            // other.get_bag()[k-1].pennant_split(bag[k]);
-            // bag[k - 1] = bag[k];
-            // bag[k].get_root() = NULL; 
-        }
+    for (int i = other.get_bag().size() - 1; i < r - 1; i++) {
+        other.get_bag().push_back(PennantTree());
     }
 
-    // other.get_bag()[0].pennant_split(bag[1]);
-    // if (y.get_root() != NULL) insert(1);
+    for (int k = 1; k < r; k++) {
+        if (bag[k].get_root() != NULL) {
+            bag[k].pennant_split(other.get_bag()[k-1]);
+            bag[k - 1] = bag[k];
+            bag[k].get_root() = NULL; 
+        } else {
+            other.get_bag()[k-1].get_root() = NULL;
+        }
+    }
+    if (y.get_root() != NULL) insert(1);
 }
 
 void Bag::full_adder(PennantTree &one, PennantTree &two, PennantTree &carry) {
